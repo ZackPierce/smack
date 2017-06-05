@@ -86,12 +86,13 @@ int main(int argc, char **argv) {
   llvm::llvm_shutdown_obj shutdown;  // calls llvm_shutdown() on exit
   llvm::cl::ParseCommandLineOptions(argc, argv, "llvm2bpl - LLVM bitcode to Boogie transformation\n");
 
-  llvm::sys::PrintStackTraceOnErrorSignal();
+  llvm::sys::PrintStackTraceOnErrorSignal(argv[0]);
   llvm::PrettyStackTraceProgram PSTP(argc, argv);
   llvm::EnableDebugBuffering = true;
 
   llvm::SMDiagnostic err;
-  std::unique_ptr<llvm::Module> module = llvm::parseIRFile(InputFilename, err, llvm::getGlobalContext());
+  llvm::LLVMContext Context;
+  std::unique_ptr<llvm::Module> module = llvm::parseIRFile(InputFilename, err, Context);
   if (!err.getMessage().empty())
     check("Problem reading input bitcode/IR: " + err.getMessage().str());
 
