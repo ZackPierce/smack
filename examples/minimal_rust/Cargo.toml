@@ -1,0 +1,16 @@
+[package]
+name = "minimal_rust"
+version = "0.1.0"
+authors = ["Zachary Pierce <zpierce@polysync.io>"]
+
+[profile.dev]
+lto = true
+
+[profile.release]
+lto = true
+
+[dependencies]
+
+[[bin]]
+name = "assignment"
+path = "src/bin/assignment.rs"
